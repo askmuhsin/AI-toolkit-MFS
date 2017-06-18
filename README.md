@@ -23,7 +23,7 @@ For example the neural network toolbox in MATLAB, or scikit in Python.
 The idea here is by no means to provide a replacement. This repo is aimed to assist someone who is just getting started  to have a closer look at the operations under the hood, ie.. is to have a properly annotated set of codes for algorithms commonly used, while keeping things at a low level (ie.. by using minimal amount of libraries or dependencies).
 </p>
 
-<p>Get in touch with me at <a href="https://www.linkedin.com/in/muhsinm/">Linkedin</a> or by <a href="mailto:askmuhsin@gmail.com?Subject=AI_Toolkit_Git" target="_top"> Mail </a> Thank you!</p>
+<p title="In case of suggestions">Get in touch with me at <a href="https://www.linkedin.com/in/muhsinm/">Linkedin</a> or by <a href="mailto:askmuhsin@gmail.com?Subject=AI_Toolkit_Git" target="_top"> Mail </a> Thank you!</p>
 
 </body>
 </html>
