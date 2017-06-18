@@ -1,11 +1,13 @@
 # Al-toolkit-MFS
 A set of optimization functions and pipelines build from basics, for Neural Nets, Evolutionary Algorithms and Swarm Intelligence.
 
-#There will be four sections in this git. 
-1. Neural Networks
-2. Evolutionary Algorithms
-3. Swarm Intelligence
-4. General
+## There will be four sections in this git. 
+<ol>
+<li>Neural Networks<li>
+<li>Evolutionary Algorithms<li>
+<li>Swarm Intelligence<li>
+<li>General<li>
+<ol>
   
 The first Three sections will have codes written exclusively pertaining to the respective topics.
 Fourth section will cover mainly :
