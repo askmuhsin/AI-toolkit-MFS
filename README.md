@@ -1,14 +1,10 @@
 <html>
-<head>
-<style>
-</style>
-</head>
 <body>
 
 <h1>Al-toolkit-MFS</h1>
 <p>A set of optimization functions and pipelines build from basics, for Neural Nets, Evolutionary Algorithms and Swarm Intelligence.</p>
 
-## There will be four sections in this git. 
+<h2>There will be four sections in this git.</h2>
 <ol>
 <li>Neural Networks</li>
 <li>Evolutionary Algorithms</li>
