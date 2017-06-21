@@ -1,4 +1,11 @@
 <html>
+<style>
+    tab1 { padding-left: 4em; }
+    tab2 { padding-left: 8em; }
+    tab3 { padding-left: 12em; }
+    tab4 { padding-left: 16em; }
+    tab5 { padding-left: 20em; }
+</style>
 <body>
 
 <h1>Al-toolkit-MFS</h1>
@@ -15,34 +22,38 @@
 <p>The first Three sections will have codes written pertaining to the respective topics.
 Fourth section will cover mainly general math functions (related to linear algebra, ode, ...) and some common optimization problems.</p>
 
-<p>
-AI-Toolkit-MFS
-	\
-	-Neural Network
-		\
-		-SLP
-		-Activation Functions
-		    \
-		    -signum
-		    -sigmoid
-		    -tanh
-		    -
-		-MLP
-		     \
-		     -XOR
-	-Swarm Intelligence
-		\
-		-PSO
-		-ACO
-	-Evolutionary Algorithm
-		\
-		-GA
-		-DE
-	-General
-		\
-		-Problems
 
-</p>
+<div>
+<p>AI-Toolkit-MFS<p>
+<p><tab1>\</tab1></p>
+
+<p><tab1>-Neural Network</tab1></p>
+<p><tab2>\</tab2></p>
+<p><tab2>-SLP</tab2></p>
+<p><tab2>-Activation Functions</tab2></p>
+<p><tab3>\</tab3></p>
+<p><tab3>-signum</tab3></p>
+<p><tab3>-sigmoid</tab3></p>
+<p><tab3>-tanh</tab3></p>
+<p><tab3>-</tab3></p>
+<p><tab2>-MLP</tab2></p>
+<p><tab3>\</tab3></p>
+<p><tab3>-XOR</tab3></p>
+
+<p><tab1>-Swarm Intelligence</tab1></p>
+<p><tab2>\</tab2></p>
+<p><tab3>-PSO</tab3></p>
+<p><tab3>-ACO</tab3></p>
+
+<p><tab1>-Evolutionary Algorithm</tab1></p>
+<p><tab2>\</tab2></p>
+<p><tab3>-GA</tab3></p>
+<p><tab3>-DE</tab3></p>
+<p><tab2>-General</tab2></p>
+<p><tab3>\</tab3></p>
+<p><tab3>-Problems</tab3></p>
+
+</div>
   
 <p>Eventually the idea is to write the code in C++, Python and Matlab. 
 To start with either one of the languages will be used.</p>
