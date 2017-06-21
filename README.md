@@ -14,6 +14,35 @@
 
 <p>The first Three sections will have codes written pertaining to the respective topics.
 Fourth section will cover mainly general math functions (related to linear algebra, ode, ...) and some common optimization problems.</p>
+
+<p>
+AI-Toolkit-MFS
+	\
+	-Neural Network
+		\
+		-SLP
+		-Activation Functions
+		    \
+		    -signum
+		    -sigmoid
+		    -tanh
+		    -
+		-MLP
+		     \
+		     -XOR
+	-Swarm Intelligence
+		\
+		-PSO
+		-ACO
+	-Evolutionary Algorithm
+		\
+		-GA
+		-DE
+	-General
+		\
+		-Problems
+
+</p>
   
 <p>Eventually the idea is to write the code in C++, Python and Matlab. 
 To start with either one of the languages will be used.</p>
