@@ -1,11 +1,5 @@
 <html>
-<style>
-    tab1 { padding-left: 4em; }
-    tab2 { padding-left: 8em; }
-    tab3 { padding-left: 12em; }
-    tab4 { padding-left: 16em; }
-    tab5 { padding-left: 20em; }
-</style>
+
 <body>
 
 <h1>Al-toolkit-MFS</h1>
@@ -22,7 +16,7 @@
 <p>The first Three sections will have codes written pertaining to the respective topics.
 Fourth section will cover mainly general math functions (related to linear algebra, ode, ...) and some common optimization problems.</p>
 
-
+<!--
 <div>
 <p>AI-Toolkit-MFS<p>
 <p><tab1>\</tab1></p>
@@ -54,6 +48,7 @@ Fourth section will cover mainly general math functions (related to linear algeb
 <p><tab3>-Problems</tab3></p>
 
 </div>
+  -->
   
 <p>Eventually the idea is to write the code in C++, Python and Matlab. 
 To start with either one of the languages will be used.</p>
