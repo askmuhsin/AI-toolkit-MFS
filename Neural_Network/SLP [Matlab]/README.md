@@ -1,201 +1,65 @@
+# Implementation of a single layer perceptron
 
-<!DOCTYPE html
-  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   <!--
-This HTML was auto-generated from MATLAB code.
-To make changes, update the MATLAB code and republish this document.
-      --><title>andNN</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2017-06-13"><meta name="DC.source" content="andNN.m"><style type="text/css">
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+<p><imp src="https://image.slidesharecdn.com/supervised-learning1627/95/supervised-learning-14-728.jpg?cb=1272282597"></p>
+<p>Download the MATLAB files and run <strong>andNN.m</strong></p>
+<p>The inputs and outputs in the file can be changed, as long as the problem is linearly seperable SLP can estimate a proper decision boundary.</p>
 
-html { min-height:100%; margin-bottom:1px; }
-html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
-html body td { vertical-align:top; text-align:left; }
-
-h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
-h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
-h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
-
-a { color:#005fce; text-decoration:none; }
-a:hover { color:#005fce; text-decoration:underline; }
-a:visited { color:#004aa0; text-decoration:none; }
-
-p { padding:0px; margin:0px 0px 20px; }
-img { padding:0px; margin:0px 0px 20px; border:none; }
-p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
-
-ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
-ul li { padding:0px; margin:0px 0px 7px 0px; }
-ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
-ul li ol li { list-style:decimal; }
-ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
-ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
-ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
-ol li ol li { list-style-type:lower-alpha; }
-ol li ul { padding-top:7px; }
-ol li ul li { list-style:square; }
-
-.content { font-size:1.2em; line-height:140%; padding: 20px; }
-
-pre, code { font-size:12px; }
-tt { font-size: 1.2em; }
-pre { margin:0px 0px 20px; }
-pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
-pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
-pre.error { color:red; }
-
-@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
-
-span.keyword { color:#0000FF }
-span.comment { color:#228B22 }
-span.string { color:#A020F0 }
-span.untermstring { color:#B20000 }
-span.syscmd { color:#B28C00 }
-
-.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
-.footer p { margin:0px; }
-.footer a { color:#878787; }
-.footer a:hover { color:#878787; text-decoration:underline; }
-.footer a:visited { color:#878787; }
-
-table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
-table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
-
-
-
-
-
-  </style></head><body><div class="content"><pre class="codeinput">clear <span class="string">all</span>
-clc
-<span class="comment">%-------------------------------------------------------------%</span>
-<span class="comment">% inputs / hyperparameters</span>
-x1 = [0,0,1,1];
-x2 = [0,1,0,1];
-<span class="comment">%y  = [0,1,1,1]; %output / training data for OR gate</span>
-y = [0,0,0,1]; <span class="comment">%training data for AND gate</span>
-w = [0,0,0]; <span class="comment">%weights initialisation, w(0) is bias</span>
-
-l = 1; <span class="comment">%learning rate</span>
-u = 0; <span class="comment">%perceptron output</span>
-ydash = 0; <span class="comment">%output after activations ydash = signumfn(u)</span>
-flag = 0; <span class="comment">%flag will be incremented when error for a given epoch is 0</span>
-run = 1; <span class="comment">%when flag is counted twice, run will be 0, to end training</span>
-epoch = 0;<span class="comment">%counter for epoch</span>
-
-<span class="comment">%-------------------------------------------------------------%</span>
-<span class="comment">%backpropagation / training</span>
-<span class="keyword">while</span> (run==1)
-    dw = 0;
-    <span class="keyword">for</span> i = 1:4
-        u=(x1(i)*w(2))+(x2(i)*w(3))+w(1);
-        ydash = signumfn(u);
-        dw1 = 1 * (y(i)-ydash);
-        dw2 = l * (y(i)-ydash)*x1(i);
-        dw3 = l * (y(i)-ydash)*x2(i);
-
-        w(1) = w(1) + dw1;
-        w(2) = w(2) + dw2;
-        w(3) = w(3) + dw3;
-
-        dw = dw + (y(i)-ydash);
-    <span class="keyword">end</span>
-
-    <span class="comment">%if error continues to stay 0 for three consecutive epochs stop training</span>
-    dw = dw /4;
-    epoch  = epoch + 1;
-    fprintf(<span class="string">'Iteration %d, error value = %d\n'</span>,epoch,dw)
-    <span class="keyword">if</span> (dw ~= 0)
-        flag = 0;
-    <span class="keyword">end</span>
-    <span class="keyword">if</span> (dw == 0)
-        flag = flag + 1;
-    <span class="keyword">end</span>
-    <span class="keyword">if</span> (flag==3)
-        run = 0; <span class="comment">%on thrid consecutive 0 error, stop running (training)</span>
-    <span class="keyword">end</span>
-
-<span class="keyword">end</span>
-
-<span class="comment">%-------------------------------------------------------------%</span>
-<span class="comment">%feed forward network</span>
-<span class="keyword">for</span> j = 1:4
-    u=(x1(j)*w(2))+(x2(j)*w(3))+w(1);
-    ydash = signumfn(u);
-    fprintf(<span class="string">'%d %d : %d \n'</span>,x1(j),x2(j),ydash);
-<span class="keyword">end</span>
-</pre><pre class="codeoutput">Iteration 1, error value = 2.500000e-01
-Iteration 2, error value = -2.500000e-01
-Iteration 3, error value = -2.500000e-01
-Iteration 4, error value = 0
-Iteration 5, error value = -2.500000e-01
-Iteration 6, error value = 0
-Iteration 7, error value = 0
-Iteration 8, error value = 0
-0 0 : 0 
-0 1 : 0 
-1 0 : 0 
-1 1 : 1 
-</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
-##### SOURCE BEGIN #####
-clear all
-clc
-%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-%
-% inputs / hyperparameters
-x1 = [0,0,1,1];
-x2 = [0,1,0,1];
-%y  = [0,1,1,1]; %output / training data for OR gate
-y = [0,0,0,1]; %training data for AND gate
-w = [0,0,0]; %weights initialisation, w(0) is bias
-
-l = 1; %learning rate
-u = 0; %perceptron output
-ydash = 0; %output after activations ydash = signumfn(u)
-flag = 0; %flag will be incremented when error for a given epoch is 0
-run = 1; %when flag is counted twice, run will be 0, to end training
-epoch = 0;%counter for epoch
-
-%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-%
-%backpropagation / training
-while (run==1)
-    dw = 0;    
-    for i = 1:4
-        u=(x1(i)*w(2))+(x2(i)*w(3))+w(1);
-        ydash = signumfn(u);
-        dw1 = 1 * (y(i)-ydash);
-        dw2 = l * (y(i)-ydash)*x1(i);
-        dw3 = l * (y(i)-ydash)*x2(i);
-        
-        w(1) = w(1) + dw1;
-        w(2) = w(2) + dw2;
-        w(3) = w(3) + dw3;
-        
-        dw = dw + (y(i)-ydash);
-    end
-    
-    %if error continues to stay 0 for three consecutive epochs stop training
-    dw = dw /4;
-    epoch  = epoch + 1;
-    fprintf('Iteration %d, error value = %d\n',epoch,dw)
-    if (dw ~= 0)
-        flag = 0;
-    end
-    if (dw == 0)
-        flag = flag + 1;
-    end
-    if (flag==3)
-        run = 0; %on thrid consecutive 0 error, stop running (training)
-    end
-             
-end
-
-%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-%
-%feed forward network
-for j = 1:4
-    u=(x1(j)*w(2))+(x2(j)*w(3))+w(1);
-    ydash = signumfn(u);
-    fprintf('%d %d : %d \n',x1(j),x2(j),ydash);
-end
-
-##### SOURCE END #####
---></body></html>
+<p>Some problems to try are : </p>
+<p><strong>AND Gate</strong></p>
+<table style="width : 50%">
+<tr>
+    <th>X1</th>
+    <th>X2</th> 
+    <th>Y</th>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>1</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  </table>
+<p><br></br></p>  
+<p><strong>OR Gate</strong></p>
+<table style="width : 50%">
+<tr>
+    <th>X1</th>
+    <th>X2</th> 
+    <th>Y</th>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td>0</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>0</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  </table>
+<p><br></br></p>  
